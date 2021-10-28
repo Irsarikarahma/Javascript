@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource"></script>
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var chartColors = {
+            red: 'rgb(255, 99, 132)',
+            blue: 'rgb(54, 162, 235)',
+            green: 'rgb(19, 100, 0)'
+        };
+
+        var color = Chart.helpers.color;
+        const config = {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    yAxisID: 'cluster 1',
+                    backgroundColor: chartColors.red,
+                    pointBackgroundColor: chartColors.red
+                }, {
+                    yAxisID: 'cluster 2',
+                    backgroundColor: chartColors.blue,
+                    pointBackgroundColor: chartColors.blue
+                }, {
+                    yAxisID: 'cluster 3',
+                    backgroundColor: chartColors.green,
+                    pointBackgroundColor: chartColors.green
+                }]
+            },
+            plugins: [ChartDataSource],
+            options: {
+                title: {
+                    display: true,
+                    text: 'Hasil Clustering'
+                },
+                scales: {
+                    xAxes: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    yAxes: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                },
+                plugins: {
+                    datasource: {
+                        type: 'sheet',
+                        url: 'hasil_clustering.xlsx',
+                        rowMapping: 'index',
+                        data: ('Cluster 01!C2:D127', 'Cluster 11!C2:D36', 'Cluster 21!C2:D40')
+                    }
+                }
+            }
+        };
+
+        window.onload = function () {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            window.myChart = new Chart(ctx, config);
+        };
+
+
+
+    </script>
+
+</body>
+
+</html>
